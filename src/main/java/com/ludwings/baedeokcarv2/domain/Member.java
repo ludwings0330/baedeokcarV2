@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.domain;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,16 @@ public class Member {
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
+
+    @NotNull
+    @Column(unique = true)
+    private String loginId;
+
+    @NotNull
+    private String password;
+
+    @NotNull
+    private String name;
 
     @OneToMany(mappedBy = "writer")
     private List<Post> postList = new ArrayList<>();

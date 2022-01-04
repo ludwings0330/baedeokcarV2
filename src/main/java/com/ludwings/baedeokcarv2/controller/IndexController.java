@@ -23,7 +23,7 @@ public class IndexController {
 
     @GetMapping("join-form")
     public String joinForm() {
-        return "";
+        return "join";
     }
 
     @GetMapping("login-form")
