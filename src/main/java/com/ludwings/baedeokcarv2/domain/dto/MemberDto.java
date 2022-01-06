@@ -4,9 +4,11 @@ import com.ludwings.baedeokcarv2.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class MemberDto {
     @Builder.Default
@@ -24,5 +26,10 @@ public class MemberDto {
                 .password(password)
                 .name(name)
                 .build();
+    }
+
+    public MemberDto(Member entity) {
+        this.loginId = entity.getLoginId();
+        this.name = entity.getName();
     }
 }

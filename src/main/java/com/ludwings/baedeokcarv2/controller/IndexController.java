@@ -21,17 +21,17 @@ public class IndexController {
         return "";
     }
 
-    @GetMapping("join-form")
+    @GetMapping("/join-form")
     public String joinForm() {
         return "join";
     }
 
-    @GetMapping("login-form")
+    @GetMapping("/login-form")
     public String loginForm() {
         return "";
     }
 
-    @GetMapping("carRegister-form")
+    @GetMapping("/carRegister-form")
     public String carRegisterForm() {
         return "";
     }

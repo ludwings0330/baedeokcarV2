@@ -32,4 +32,9 @@ public class Member {
 
     @OneToMany(mappedBy = "writer")
     private List<Post> postList = new ArrayList<>();
+
+    public void updateMemberInfo(Member info) {
+        this.password = info.getPassword();
+        this.name = info.getName();
+    }
 }

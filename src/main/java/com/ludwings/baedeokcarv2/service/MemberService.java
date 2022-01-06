@@ -1,7 +1,17 @@
 package com.ludwings.baedeokcarv2.service;
 
+import com.ludwings.baedeokcarv2.domain.Member;
 import com.ludwings.baedeokcarv2.domain.dto.MemberDto;
+
+import java.util.List;
 
 public interface MemberService {
     String join(MemberDto memberDto);
+    boolean isLoginIdDuplicate(MemberDto memberDto);
+    String findMemberById(Long memberId);
+    Member findMemberByLoginId(String loginId);
+    List<String> findAllMember();
+    String login(MemberDto memberDto);
+    boolean deleteMember(MemberDto memberDto);
+    String modifyMember(MemberDto memberDto);
 }
