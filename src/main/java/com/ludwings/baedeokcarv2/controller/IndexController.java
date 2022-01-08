@@ -13,7 +13,7 @@ public class IndexController {
 
     @GetMapping("/posts")
     public String getAllPosts() {
-        return "";
+        return "post/board";
     }
 
     @GetMapping("/posts-form")

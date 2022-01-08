@@ -1,23 +1,29 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <div th:replace="~{fragments/header::fragment-header}"></div>
 </head>
 <body>
+<div th:replace="~{fragments/nav::fragment-nav}"></div>
+<div class="content">
+    <div class="container mt-3">
+        <h1>회원가입</h1>
+        <hr/>
 
-<form action="/member" method="post">
-    <label for="loginId">아이디</label>
-    <input type="text" id="loginId" name="loginId"/>
+        <form action="/member" method="post">
+            <label for="loginId">아이디</label>
+            <input type="text" id="loginId" name="loginId"/>
 
-    <label for="password">비밀번호</label>
-    <input type="text" id="password" name="password"/>
+            <label for="password">비밀번호</label>
+            <input type="text" id="password" name="password"/>
 
-    <label for="name">이름</label>
-    <input type="text" id="name" name="name"/>
+            <label for="name">이름</label>
+            <input type="text" id="name" name="name"/>
 
-    <button type="submit">가입</button>
-</form>
-
+            <button type="submit">가입</button>
+        </form>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer::fragment-footer}"></footer>
 </body>
 </html>
