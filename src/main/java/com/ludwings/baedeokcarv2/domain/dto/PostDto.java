@@ -11,10 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PostDto {
     private Long id;
-    @Builder.Default
-    private String title = "";
-    @Builder.Default
-    private String content = "";
+    private String title;
+    private String content;
 
     private String writer;
 

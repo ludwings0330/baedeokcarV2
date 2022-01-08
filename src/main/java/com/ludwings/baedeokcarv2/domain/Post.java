@@ -28,4 +28,19 @@ public class Post extends BaseEntity {
     private Member writer;
 
     int hitCount = 0;
+
+    public void modifyInfo(String title, String content) {
+        if (title != null) {
+            this.title = title;
+        }
+
+        if (content != null) {
+            this.content = content;
+        }
+    }
+
+    public int hitPost() {
+        this.hitCount ++;
+        return hitCount;
+    }
 }

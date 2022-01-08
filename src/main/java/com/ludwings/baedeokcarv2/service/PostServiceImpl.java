@@ -31,6 +31,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    /*
+    Pageable 3개 핵심, page, size, sort
+     */
     public Page<PostDto> searchPost(Pageable pageable, String keyword) {
         Page<Post> posts;
         if (keyword.equals("")) {
@@ -43,23 +46,31 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public PostDto detailPost(PostDto postDto) {
-        return null;
+        Optional<Post> findPost = postRepository.findById(postDto.getId());
+
+        findPost.get().hitPost();
+
+        return new PostDto(findPost.get());
     }
 
     @Override
-    public PostDto modifyPost(PostDto postDto) {
-        return null;
+    @Transactional
+    public void modifyPost(PostDto postDto) {
+        Optional<Post> findPost = postRepository.findById(postDto.getId());
+        Post post = findPost.get();
+
+        post.modifyInfo(postDto.getTitle(), postDto.getContent());
     }
 
     @Override
+    @Transactional
     public boolean deletePost(PostDto postDto) {
-        return false;
-    }
+        Optional<Post> findPost = postRepository.findById(postDto.getId());
+        postRepository.delete(findPost.get());
 
-    @Override
-    public int hitPost(Post post) {
-        return 0;
+        return true;
     }
 
     private Post dtoToEntity(PostDto postDto) {

@@ -12,9 +12,7 @@ public interface PostService {
 
     PostDto detailPost(PostDto postDto);
 
-    PostDto modifyPost(PostDto postDto);
+    void modifyPost(PostDto postDto);
 
     boolean deletePost(PostDto postDto);
-
-    int hitPost(Post post);
 }
