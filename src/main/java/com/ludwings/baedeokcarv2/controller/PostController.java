@@ -47,12 +47,14 @@ public class PostController {
     @PatchMapping("/post/{postId}")
     public String modifyPost(@PathVariable Long postId, @ModelAttribute PostDto postDto) {
         postDto.setId(postId);
-
+        postService.modifyPost(postDto);
         return "index";
     }
 
     @DeleteMapping("/post/{postId}")
     public String deletePost(@PathVariable Long postId) {
+        postService.deletePost(PostDto.builder().id(postId).build());
+
         return "index";
     }
 }
