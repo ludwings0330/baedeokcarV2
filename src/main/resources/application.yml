@@ -8,3 +8,10 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
+    properties:
+      hibernate:
+        # 콘솔에 sql을 보여준다. 성능 점검 필요
+        # show_sql: true
+        # sql 포맷에 맞춰서 보여준다.
+        format_sql: true
