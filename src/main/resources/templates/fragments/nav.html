@@ -12,38 +12,38 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/"><i class="fas fa-home"></i> 홈</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-car-side"></i> 렌트예약</a>
+                <li th:if="${session.loginId != null}" class="nav-item">
+                    <a class="nav-link active " aria-current="page" href="#"><i class="fas fa-car-side"></i> 렌트예약</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/posts"><i class="fas fa-clipboard-list"></i> 후기게시판</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/login-form"><i class="fas fa-sign-in-alt"></i> 로그인</a>
+                <li th:if="${session.loginId != null}" class="nav-item">
+                    <a class="nav-link active " aria-current="page" href="#"><i class="fas fa-plus"></i> 차량 등록</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/join-form"><i class="fas fa-signature"></i> 회원가입</a>
+                <li th:if="${session.loginId != null}" class="nav-item">
+                    <a class="nav-link active " aria-current="page" href="#"><i class="fas fa-list-alt"></i> 내 차량</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/logout"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+                <li th:if="${session.loginId != null}" class="nav-item" >
+                    <a class="nav-link active " aria-current="page" href="#"><i class="fas fa-tasks"></i> 예약 확인</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-plus"></i> 차량 등록</a>
+                <li th:if="${session.loginId != null}" class="nav-item">
+                    <a class="nav-link active " aria-current="page" href="#"><i class="fas fa-user-edit"></i> 개인정보 수정</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-list-alt"></i> 내 차량</a>
+
+                <li th:if="${session.loginId == null}" class="nav-item active not-login">
+                    <a class="nav-link active " aria-current="page" href="/login-form"><i class="fas fa-sign-in-alt"></i> 로그인</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-tasks"></i> 예약 확인</a>
+                <li th:if="${session.loginId == null}" class="nav-item active not-login">
+                    <a class="nav-link active " aria-current="page" href="/join-form"><i class="fas fa-signature"></i> 회원가입</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-user-edit"></i> 개인정보 수정</a>
+                <li th:if="${session.loginId != null}" class="nav-item active login">
+                    <a class="nav-link active " aria-current="page" href="/logout"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 <!-- end of navbar -->
-
 
 </html>

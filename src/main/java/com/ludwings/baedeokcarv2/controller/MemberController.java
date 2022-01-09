@@ -44,22 +44,17 @@ public class MemberController {
     public @ResponseBody
     String login(@ModelAttribute MemberDto memberDto, HttpSession session) {
         String loginId = memberService.login(memberDto);
+        session.setAttribute("loginId", loginId);
 
-        if (loginId == null) {
-            return "fail";
-        } else {
-            session.setAttribute("authInfo", loginId);
-            return loginId;
-        }
+        return loginId;
     }
 
     // 로그아웃
     @GetMapping("/logout")
-    public @ResponseBody
-    String logout(HttpSession session) {
-        String authInfo = (String) session.getAttribute("authInfo");
+    public String logout(HttpSession session) {
         session.invalidate();
-        return authInfo;
+
+        return "redirect:/";
     }
 
     @PostMapping("/idCheck.do")

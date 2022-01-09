@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="~{fragments/header::fragment-header}"></div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
 <div th:replace="~{fragments/nav::fragment-nav}"></div>
@@ -47,7 +46,7 @@
     let pwdCheck = false;
     let idCheck = true;
 
-    $(function () {
+    $(document).ready(function () {
         $(".alert").hide();
         $("#submit").attr("disabled","disabled");
 
@@ -92,8 +91,6 @@
 
                 success: function (data) {
 
-                    console.log(data)
-                    console.log(data.canUse);
                     if (data.canUse === "true") {
 
                         idCheck = true;

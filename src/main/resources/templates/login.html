@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/header::fragment-header}"></div>
+</head>
+<body>
+<div th:replace="~{fragments/nav::fragment-nav}"></div>
+<div class="content">
+    <div class="container mt-3">
+        <h1>로그인</h1>
+        <hr/>
+        <form>
+            <div class="input-group mb-3 pt-3">
+                <span class="input-group-text" id="user-icon"><i class="fas fa-user"></i></span>
+                <div class="form-floating w-50">
+                    <input type="text" class="form-control" id="loginId" placeholder="Input Login ID">
+                    <label for="loginId" >Login ID</label>
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="pwd-icon"><i class="fas fa-key"></i></span>
+                <div class="form-floating w-50">
+                    <input type="password" class="form-control" id="password" placeholder="Input password">
+                    <label for="password" >Password</label>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary mb-3" id="btn-login">Login</button>
+            <a class="btn btn-secondary mb-3 ms-1" id="btn-join" href="/join-form">Join</a>
+            <div id="login-alert" class="alert alert-warning">아이디/비밀번호 오류</div>
+        </form>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer::fragment-footer}"></footer>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#login-alert").hide();
+    });
+
+    $("#btn-login").click(function () {
+        let loginId = $("#loginId").val();
+        let password = $("#password").val();
+
+        console.log(loginId + password);
+
+        $.ajax({
+            type: "GET",
+            url: "/login",
+            data: "loginId="+loginId + "&password="+password,
+            dataType: "text",
+
+            success: function (data) {
+                console.log(data);
+                if (data == "") {
+                    console.log("아이디/비밀번호 오류")
+                    $("#login-alert").show();
+                } else {
+                    location.href="/";
+                }
+            },
+
+            error: function (e) {
+                console.log(e);
+                alert("error :" + e);
+            }
+        })
+    });
+</script>
+</body>
+</html>

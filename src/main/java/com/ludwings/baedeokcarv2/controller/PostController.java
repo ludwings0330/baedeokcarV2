@@ -26,7 +26,7 @@ public class PostController {
         model.addAttribute("page", page);
         model.addAttribute("posts", page.getContent());
 
-        return "index";
+        return "post/board";
     }
 
     @PostMapping("/post")
