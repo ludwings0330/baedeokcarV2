@@ -22,13 +22,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String join(MemberDto memberDto) {
 
-        if (!isLoginIdDuplicate(memberDto)) {
-            Member member = memberDto.toEntity();
-            Member savedMember = memberRepository.save(member);
-            return savedMember.getLoginId();
-        }
+        Member member = memberDto.toEntity();
+        Member savedMember = memberRepository.save(member);
 
-        return null;
+        return savedMember.getLoginId();
     }
 
     @Override

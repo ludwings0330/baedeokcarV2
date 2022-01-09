@@ -15,3 +15,8 @@ spring:
         # show_sql: true
         # sql 포맷에 맞춰서 보여준다.
         format_sql: true
+  devtools:
+    livereload:
+      enabled: true
+    thymeleaf:
+      cache: false
