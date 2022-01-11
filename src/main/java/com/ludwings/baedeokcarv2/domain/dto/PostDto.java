@@ -22,6 +22,7 @@ public class PostDto {
     LocalDateTime createDate;
     LocalDateTime modifiedDate;
 
+    int hitCount;
     public PostDto(Post entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
@@ -29,5 +30,6 @@ public class PostDto {
         this.writer = entity.getWriter().getName();
         this.createDate = entity.getCreatedDate();
         this.modifiedDate = entity.getModifiedDate();
+        this.hitCount = entity.getHitCount();
     }
 }

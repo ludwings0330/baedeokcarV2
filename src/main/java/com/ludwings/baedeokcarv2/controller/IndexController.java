@@ -11,14 +11,9 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/posts")
-    public String getAllPosts() {
-        return "post/board";
-    }
-
-    @GetMapping("/posts-form")
+    @GetMapping("/post-form")
     public String postForm() {
-        return "";
+        return "post/post-form";
     }
 
     @GetMapping("/join-form")

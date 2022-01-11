@@ -25,7 +25,7 @@ public class PostController {
 
         model.addAttribute("page", page);
         model.addAttribute("posts", page.getContent());
-
+        model.addAttribute("keyword", keyword);
         return "post/board";
     }
 

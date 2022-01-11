@@ -7,11 +7,79 @@
 <div th:replace="~{fragments/nav::fragment-nav}"></div>
 <div class="content">
     <div class="container mt-3">
-        <h1>후기 게시판 !</h1>
+        <h1>후기 게시판</h1>
         <hr/>
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post: ${posts}">
+                <th th:text="${post.getId()}">id</th>
+                <td th:text="${post.getTitle()}">title</td>
+                <td th:text="${post.getWriter()}">writer</td>
+                <td th:text="${#temporals.format(post.getCreateDate(), 'MM/dd')}">date</td>
+                <td th:text="${post.getHitCount()}">hitCount</td>
+            </tr>
+            </tbody>
+        </table>
 
+        <div class="text-center clearfix">
+            <button id="btn-post" class="btn btn-dark float-end">작성</button>
+            <!--        <button class="btn btn-secondary">검색</button>-->
+        </div>
+<!--pagination-->
+        <th:block th:with="maxPage=10, start=${(page.number / maxPage ) * maxPage + 1},
+        end=(${(page.totalPages == 0) ? 1:(start+(maxPage - 1) < page.totalPages? start + (maxPage -1) : page.totalPages)})">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-3 text-dark">
+                <li th:if="${start > 1}" class="page-item">
+                    <a class="page-link" th:href="@{/post(page=${start-maxPage}, keyword=${keyword})}" id="Previous" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li th:each="p: ${#numbers.sequence(start, end)}">
+                    <a th:href="@{/post(page=${p-1}, keyword=${keyword})}" class="page-link" th:text="${p}">0</a>
+                </li>
+                <li class="page-item" th:if="${end < page.totalPages}">
+                    <a class="page-link" th:href="@{/post(page=${start+maxPage}, keyword=${keyword})}" id="Next" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        </th:block>
+<!--end of pagination-->
+
+<!--        search -->
+        <div class="text-center">
+            <input type="text" id="keyword" placeholder="검색어 입력">
+            <button class="btn btn-dark ms-0" id="btn-search"><i class="fas fa-search"></i></button>
+        </div>
+<!--        end of search -->
     </div>
 </div>
 <footer th:replace="~{fragments/footer::fragment-footer}"></footer>
 </body>
+<script type="text/javascript">
+    $(function(){
+        $("#btn-search").click(function () {
+            let keyword = $("#keyword").val();
+            let url = "/post?keyword="+keyword;
+            console.log(url);
+            location.replace(url);
+        })
+
+        $("#btn-post").click(function () {
+            location.replace("/post-form");
+        });
+    })
+</script>
+
 </html>
