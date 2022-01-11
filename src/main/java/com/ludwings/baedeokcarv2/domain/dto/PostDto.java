@@ -27,7 +27,7 @@ public class PostDto {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
-        this.writer = entity.getWriter().getName();
+        this.writer = entity.getWriter().getLoginId();
         this.createDate = entity.getCreatedDate();
         this.modifiedDate = entity.getModifiedDate();
         this.hitCount = entity.getHitCount();

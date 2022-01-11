@@ -6,12 +6,188 @@
 <body>
 <div th:replace="~{fragments/nav::fragment-nav}"></div>
 <div class="content">
+
     <div class="container mt-3">
         <h1>Post Form page !</h1>
         <hr/>
+        <div class="card p-3">
+            <div class="mb-3 row">
+                <label for="title" class="col-sm-2 col-form-label">Title</label>
+                <div class="col-sm-10">
+                    <input type="text"  class="form-control" id="title">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="writer" class="col-sm-2 col-form-label">Writer</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="writer" readonly>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="createDate" class="col-sm-2 col-form-label">Create Date</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="createDate" readonly>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="modifiedDate" class="col-sm-2 col-form-label">Modified Date</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="modifiedDate" readonly>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="content" class="col-sm-2 col-form-label">Content</label>
+                <div class="col-sm-10">
+                    <textarea type="text" class="form-control"  rows=20 id="content"></textarea>
+                </div>
+            </div>
+
+            <div class="ms-auto" style="display: inline">
+                <a href="#">
+                    <button th:if="${post} == null" class="btn btn-primary my-1 my-save" id="btn-save">Save</button>
+                </a>
+
+                <a href="#">
+                    <button th:if="${post} != null  and ${#strings.equals(session.loginId, post.getWriter())}"
+                            class="btn btn-warning my-1 my-mod" id="btn-mod">Modify</button>
+                </a>
+
+                <a href="#">
+                    <button th:if="${post} != null  and ${#strings.equals(session.loginId, post.getWriter())}"
+                         class="btn btn-danger my-1" id="btn-del">Delete</button>
+                </a>
+                <a href="/post">
+                    <button class="btn btn-secondary my-1" id="btn-list">Post List</button>
+                </a>
+
+
+
+                <a href="#">
+                    <button th:if="${post} != null  and ${#strings.equals(session.loginId, post.getWriter())}"
+                            class="btn btn-warning my-1" id="btn-mod-save">Save</button>
+                </a>
+
+                <a href="#">
+                    <button th:if="${post} != null  and ${#strings.equals(session.loginId, post.getWriter())}"
+                            class="btn btn-secondary my-1" id="btn-mod-cancel">Cancel</button>
+                </a>
+
+            </div>
+        </div>
+
 
     </div>
 </div>
 <footer th:replace="~{fragments/footer::fragment-footer}"></footer>
+<script th:inline="javascript">
+
+    $("#btn-mod-cancel").hide();
+    $("#btn-mod-save").hide();
+
+    $(document).ready(function () {
+        let data = [[${post}]];
+        let writer = [[${session.loginId}]];
+        $("#writer").val(writer);
+
+        if (data == null) {
+            $("#btn-save").click(function () {
+                let content = $("#content").val();
+                let title = $("#title").val();
+                if (title=="") {
+                    $("#title").addClass("is-invalid");
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/post",
+                    data: {"content":content, "title":title, "writer":writer},
+                    dataType: "text",
+
+                    success: function (data) {
+                        location.replace("/post");
+                    },
+                    error: function (e) {
+                        alert("error" + e);
+                    }
+                })
+            });
+        } else {
+            $("#title").val(data.title);
+            $("#content").val(data.content);
+            $("#createDate").val(data.createDate);
+            $("#modifiedDate").val(data.modifiedDate);
+
+            setReadOnly();
+        }
+
+        $("#btn-del").click(function () {
+            if (confirm("삭제하시겠습니까?")) {
+                let pathname = window.location.pathname;
+
+                console.log(pathname.substring(pathname.lastIndexOf("/")));
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/post" + pathname.substring(pathname.lastIndexOf("/")),
+                    dataType: "text",
+                    success: function (data) {
+                        location.replace("/post");
+                    }
+
+                })
+            }
+        });
+    });
+
+
+    $("#btn-mod").click(function () {
+        $("#title").removeAttr("readonly");
+        $("#content").removeAttr("readonly");
+
+        $("#btn-mod").hide();
+        $("#btn-mod-save").show();
+        $("#btn-mod-cancel").show();
+    });
+
+    $("#btn-mod-save").click(function () {
+
+        let content = $("#content").val();
+        let title = $("#title").val();
+
+        if (title=="") {
+            $("#title").addClass("is-invalid");
+            return;
+        }
+
+        let pathname = window.location.pathname;
+
+        $.ajax({
+            type: "PATCH",
+            url: "/post" + pathname.substring(pathname.lastIndexOf("/")),
+            data: {"content":content, "title":title},
+            dataType: "text",
+
+            success: function (data) {
+                location.replace(window.location.pathname);
+            },
+            error: function (e) {
+                alert("error" + e);
+            }
+        })
+    });
+
+    $("#btn-mod-cancel").click(function () {
+        location.replace(window.location.pathname);
+    });
+
+    function setReadOnly() {
+        $(".form-control").attr("readonly", true);
+    }
+
+</script>
 </body>
 </html>

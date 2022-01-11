@@ -22,7 +22,7 @@
             <tbody>
             <tr th:each="post: ${posts}">
                 <th th:text="${post.getId()}">id</th>
-                <td th:text="${post.getTitle()}">title</td>
+                <td><a th:href="@{/post/{id}(id=${post.getId()})}" th:text="${post.getTitle()}">title</a></td>
                 <td th:text="${post.getWriter()}">writer</td>
                 <td th:text="${#temporals.format(post.getCreateDate(), 'MM/dd')}">date</td>
                 <td th:text="${post.getHitCount()}">hitCount</td>

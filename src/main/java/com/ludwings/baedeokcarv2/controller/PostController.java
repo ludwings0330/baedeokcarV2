@@ -30,10 +30,10 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public String savePost(@ModelAttribute PostDto postDto) {
-        postService.writePost(postDto);
+    public @ResponseBody String savePost(@ModelAttribute PostDto postDto) {
+        boolean ret = postService.writePost(postDto);
 
-        return "index";
+        return ""+ret;
     }
 
     @GetMapping("/post/{postId}")
@@ -41,20 +41,20 @@ public class PostController {
         PostDto findPost = postService.detailPost(PostDto.builder().id(postId).build());
         model.addAttribute("post", findPost);
 
-        return "index";
+        return "post/post-form";
     }
 
     @PatchMapping("/post/{postId}")
-    public String modifyPost(@PathVariable Long postId, @ModelAttribute PostDto postDto) {
+    public @ResponseBody String modifyPost(@PathVariable Long postId, @ModelAttribute PostDto postDto) {
         postDto.setId(postId);
         postService.modifyPost(postDto);
-        return "index";
+        return "ok";
     }
 
     @DeleteMapping("/post/{postId}")
-    public String deletePost(@PathVariable Long postId) {
-        postService.deletePost(PostDto.builder().id(postId).build());
+    public @ResponseBody String deletePost(@PathVariable Long postId) {
+        boolean ret = postService.deletePost(PostDto.builder().id(postId).build());
 
-        return "index";
+        return ret+"";
     }
 }
