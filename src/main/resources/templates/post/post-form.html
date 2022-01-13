@@ -91,9 +91,9 @@
     $(document).ready(function () {
         let data = [[${post}]];
         let writer = [[${session.loginId}]];
-        $("#writer").val(writer);
 
         if (data == null) {
+            $("#writer").val(writer);
             $("#btn-save").click(function () {
                 let content = $("#content").val();
                 let title = $("#title").val();
@@ -116,6 +116,7 @@
                 })
             });
         } else {
+            $("#writer").val(data.writer);
             $("#title").val(data.title);
             $("#content").val(data.content);
             $("#createDate").val(data.createDate);
