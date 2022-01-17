@@ -1,5 +1,6 @@
-package com.ludwings.baedeokcarv2.domain;
+package com.ludwings.baedeokcarv2.domain.model;
 
+import com.ludwings.baedeokcarv2.domain.BaseEntity;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

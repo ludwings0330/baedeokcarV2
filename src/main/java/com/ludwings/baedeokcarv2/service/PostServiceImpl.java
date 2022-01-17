@@ -1,8 +1,8 @@
 package com.ludwings.baedeokcarv2.service;
 
-import com.ludwings.baedeokcarv2.domain.Member;
-import com.ludwings.baedeokcarv2.domain.Post;
-import com.ludwings.baedeokcarv2.domain.dto.PostDto;
+import com.ludwings.baedeokcarv2.domain.model.Member;
+import com.ludwings.baedeokcarv2.domain.model.Post;
+import com.ludwings.baedeokcarv2.domain.dto.post.PostDto;
 import com.ludwings.baedeokcarv2.repository.MemberRepository;
 import com.ludwings.baedeokcarv2.repository.PostRepository;
 import lombok.RequiredArgsConstructor;

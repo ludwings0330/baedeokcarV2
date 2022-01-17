@@ -1,7 +1,6 @@
 package com.ludwings.baedeokcarv2.service;
 
-import com.ludwings.baedeokcarv2.domain.Post;
-import com.ludwings.baedeokcarv2.domain.dto.PostDto;
+import com.ludwings.baedeokcarv2.domain.dto.post.PostDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,6 +1,6 @@
-package com.ludwings.baedeokcarv2.domain.dto;
+package com.ludwings.baedeokcarv2.domain.dto.member;
 
-import com.ludwings.baedeokcarv2.domain.Member;
+import com.ludwings.baedeokcarv2.domain.model.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

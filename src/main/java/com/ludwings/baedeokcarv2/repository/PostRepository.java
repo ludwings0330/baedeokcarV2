@@ -1,6 +1,6 @@
 package com.ludwings.baedeokcarv2.repository;
 
-import com.ludwings.baedeokcarv2.domain.Post;
+import com.ludwings.baedeokcarv2.domain.model.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

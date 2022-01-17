@@ -1,6 +1,6 @@
 package com.ludwings.baedeokcarv2.repository;
 
-import com.ludwings.baedeokcarv2.domain.Member;
+import com.ludwings.baedeokcarv2.domain.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

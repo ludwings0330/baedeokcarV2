@@ -1,7 +1,6 @@
-package com.ludwings.baedeokcarv2.domain;
+package com.ludwings.baedeokcarv2.domain.model;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;

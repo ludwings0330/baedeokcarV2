@@ -1,6 +1,6 @@
 package com.ludwings.baedeokcarv2.controller;
 
-import com.ludwings.baedeokcarv2.domain.dto.PostDto;
+import com.ludwings.baedeokcarv2.domain.dto.post.PostDto;
 import com.ludwings.baedeokcarv2.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

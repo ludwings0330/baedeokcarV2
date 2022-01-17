@@ -1,7 +1,7 @@
-package com.ludwings.baedeokcarv2.domain;
+package com.ludwings.baedeokcarv2.domain.model;
 
-import com.ludwings.baedeokcarv2.domain.dto.CarCreateReqDto;
-import com.ludwings.baedeokcarv2.domain.dto.CarModDto;
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarModDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

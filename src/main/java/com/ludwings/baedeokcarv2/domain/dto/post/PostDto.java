@@ -1,6 +1,6 @@
-package com.ludwings.baedeokcarv2.domain.dto;
+package com.ludwings.baedeokcarv2.domain.dto.post;
 
-import com.ludwings.baedeokcarv2.domain.Post;
+import com.ludwings.baedeokcarv2.domain.model.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

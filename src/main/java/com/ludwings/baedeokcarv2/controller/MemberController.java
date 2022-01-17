@@ -1,7 +1,7 @@
 package com.ludwings.baedeokcarv2.controller;
 
-import com.ludwings.baedeokcarv2.domain.Member;
-import com.ludwings.baedeokcarv2.domain.dto.MemberDto;
+import com.ludwings.baedeokcarv2.domain.model.Member;
+import com.ludwings.baedeokcarv2.domain.dto.member.MemberDto;
 import com.ludwings.baedeokcarv2.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

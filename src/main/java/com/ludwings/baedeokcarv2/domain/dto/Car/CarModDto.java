@@ -1,4 +1,4 @@
-package com.ludwings.baedeokcarv2.domain.dto;
+package com.ludwings.baedeokcarv2.domain.dto.Car;
 
 import lombok.Data;
 
