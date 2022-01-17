@@ -1,6 +1,7 @@
 package com.ludwings.baedeokcarv2.domain.model;
 
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarModDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,20 +39,29 @@ public class Car {
     @OneToMany(mappedBy = "reservedCar")
     List<Reservation> reservationList = new ArrayList<>();
 
-    public Car createCar(CarCreateReqDto carDto, Member member) {
+    public Car(CarDto carDto, Member member) {
         member.addCar(this);
 
-        return Car.builder()
-                .owner(member)
-                .build();
+        name = carDto.getName();
+        model = carDto.getModel();
+        introduction = carDto.getIntroduction();
+        distance = carDto.getDistance();
+        price = carDto.getPrice();
+        originFileName = carDto.getOriginFileName();
+        owner = member;
     }
 
     public void addReservation(Reservation reservation) {
         reservationList.add(reservation);
     }
 
-    public void modifyCarInfo(CarModDto carDto) {
-
+    public void modifyCarInfo(CarDto carDto) {
+        name = (carDto.getName() == null) ? name : carDto.getName();
+        model = (carDto.getModel() == null) ? model : carDto.getModel();
+        introduction = (carDto.getIntroduction() == null) ? introduction : carDto.getIntroduction();
+        distance = (carDto.getDistance() == 0) ? distance : carDto.getDistance();
+        price = (carDto.getPrice() == 0) ? price : carDto.getPrice();
+        originFileName = (carDto.getOriginFileName() == null) ? originFileName : carDto.getOriginFileName();
     }
 
 }
