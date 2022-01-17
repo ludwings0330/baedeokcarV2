@@ -17,11 +17,11 @@ public class Reservation {
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="reservationList")
+    @JoinColumn(name="car_id")
     Car reservedCar;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="reservationList")
+    @JoinColumn(name="member_id")
     Member reservedMember;
 
     LocalDate start;
