@@ -30,11 +30,21 @@ public class Member extends BaseEntity{
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "writer")
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Post> postList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<Car> carList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reservedMember", fetch = FetchType.LAZY)
+    private List<Reservation> reservationList = new ArrayList<>();
 
     public void updateMemberInfo(Member info) {
         this.password = info.getPassword();
         this.name = info.getName();
+    }
+
+    public void addCar(Car car) {
+        carList.add(car);
     }
 }
