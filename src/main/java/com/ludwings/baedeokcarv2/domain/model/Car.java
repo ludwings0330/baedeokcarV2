@@ -33,7 +33,7 @@ public class Car {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="carList")
+    @JoinColumn(name="member_id")
     Member owner;
 
     @OneToMany(mappedBy = "reservedCar")
