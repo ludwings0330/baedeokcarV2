@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.controller;
 
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
 import com.ludwings.baedeokcarv2.service.CarService;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +18,11 @@ public class CarController {
 
     private final CarService carService;
 
-    /**
-     * 차량 등록
-     * @param carDto
-     * @return
-     */
     @PostMapping("/car")
-    public String registerCar(@ModelAttribute CarDto carDto, Model model) {
-        CarDto createdCar = carService.registerCar(carDto);
+    public String saveCar(@ModelAttribute CarCreateReqDto reqDto, Model model) {
+        carService.saveCar(reqDto);
 
-        model.addAttribute("car", createdCar);
-        return "/";
+        return "redirect:/";
     }
 
     /**
@@ -35,9 +30,11 @@ public class CarController {
      * @param carId
      */
     @GetMapping("/car/{carId}")
-    public void findCar(@PathVariable Long carId, Model model) {
+    public String findCar(@PathVariable Long carId, Model model) {
         CarDto findCarDto = carService.findCarByCarId(carId);
         model.addAttribute("car", findCarDto);
+
+        return "redirect:/";
     }
 
     /**
@@ -47,6 +44,7 @@ public class CarController {
     @DeleteMapping("/car/{carId}")
     public String deleteCar(@PathVariable Long carId) {
         carService.deleteCar(carId);
+
         return "redirect:/";
     }
 
@@ -56,9 +54,11 @@ public class CarController {
      * @param carDto
      */
     @PatchMapping("/car/{carId}")
-    public void modifyCar(@PathVariable Long carId, @ModelAttribute CarDto carDto) {
+    public String modifyCar(@PathVariable Long carId, @ModelAttribute CarDto carDto) {
         carDto.setId(carId);
         carService.modifyCar(carDto);
+
+        return "redirect:/";
     }
 
 
@@ -74,7 +74,8 @@ public class CarController {
         model.addAttribute("cars", cars.getContent());
         model.addAttribute("page", cars);
 
-        return "/";
+        return "redirect:/";
+
     }
 
     @GetMapping("/car/member/{loginId}")
@@ -86,6 +87,6 @@ public class CarController {
         model.addAttribute("cars", cars.getContent());
         model.addAttribute("page", cars);
 
-        return "/";
+        return "redirect:/";
     }
 }

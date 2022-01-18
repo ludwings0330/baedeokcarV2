@@ -26,8 +26,8 @@ public class IndexController {
         return "login";
     }
 
-    @GetMapping("/carRegister-form")
+    @GetMapping("/car-register-form")
     public String carRegisterForm() {
-        return "";
+        return "car/car-register-form";
     }
 }

@@ -7,10 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Car {
+
 
     @Id @GeneratedValue
     @Column(name="car_id")
@@ -51,6 +54,20 @@ public class Car {
         owner = member;
     }
 
+    public Car(CarCreateReqDto carDto, Member member) {
+        member.addCar(this);
+
+        name = carDto.getName();
+        model = carDto.getModel();
+        introduction = carDto.getIntroduction();
+        distance = carDto.getDistance();
+        price = carDto.getPrice();
+        owner = member;
+
+        originFileName = carDto.getFile().getOriginalFilename();
+        savedFileName = UUID.randomUUID().toString().concat(originFileName.substring(originFileName.lastIndexOf(".")));
+    }
+
     public void addReservation(Reservation reservation) {
         reservationList.add(reservation);
     }
@@ -63,5 +80,4 @@ public class Car {
         price = (carDto.getPrice() == 0) ? price : carDto.getPrice();
         originFileName = (carDto.getOriginFileName() == null) ? originFileName : carDto.getOriginFileName();
     }
-
 }

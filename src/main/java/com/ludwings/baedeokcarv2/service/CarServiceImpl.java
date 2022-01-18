@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.service;
 
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
 import com.ludwings.baedeokcarv2.domain.model.Car;
 import com.ludwings.baedeokcarv2.domain.model.Member;
@@ -19,18 +20,31 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final MemberService memberService;
 
+    private final FileUploadService fileUploadService;
+
     @Override
     @Transactional
-    public CarDto registerCar(CarDto carDto) {
+    public CarDto saveCar(CarDto carDto) {
         Member findMember = memberService.findMemberByLoginId(carDto.getLoginId());
         Car car = new Car(carDto, findMember);
 
         carRepository.save(car);
 
-        return null;
+        return new CarDto(car);
     }
 
     @Override
+    @Transactional
+    public void saveCar(CarCreateReqDto reqDto) {
+        Member findMember = memberService.findMemberByLoginId(reqDto.getLoginId());
+        Car car = new Car(reqDto, findMember);
+
+        carRepository.save(car);
+        fileUploadService.saveImageFileToServer(reqDto.getFile(), car.getOriginFileName(), car.getSavedFileName());
+    }
+
+    @Override
+    @Transactional
     public CarDto modifyCar(CarDto carDto) {
         Optional<Car> findCar = carRepository.findById(carDto.getId());
         if (findCar.isPresent()) {
