@@ -2,11 +2,13 @@ package com.ludwings.baedeokcarv2.domain.dto.Car;
 
 import com.ludwings.baedeokcarv2.domain.model.Car;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
 public class CarCreateReqDto {
     String loginId;
     String name;

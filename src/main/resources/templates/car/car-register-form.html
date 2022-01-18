@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/header::fragment-header}"></div>
+</head>
+<body>
+<div th:replace="~{fragments/nav::fragment-nav}"></div>
+<div class="content">
+    <div class="container mt-3">
+        <h1>Car Register Form!</h1>
+        <hr/>
+
+
+        <form id="carSaveForm" action="/car" enctype="multipart/form-data" method="post">
+            <div class="mb-3">
+                <label for="loginId" class="form-label">차량 소유주</label>
+                <input type="text" class="form-control" id="loginId" name="loginId" th:value="${session.loginId}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">차량 이름</label>
+                <input class="form-control" id="name" name="name" placeholder="다른 차량과 구분하기 위해 차량 이름을 입력해주세요.">
+            </div>
+            <div class="mb-3">
+                <label for="model" class="form-label">차량 모델</label>
+                <input class="form-control" id="model" name="model" placeholder="차량의 모델을 입력해주세요.">
+            </div>
+
+            <div class="mb-3">
+                <label for="distance" class="form-label">주행 거리</label>
+                <input class="form-control" id="distance" name="distance" placeholder="차량 총 주행 거리를 입력해주세요. (단위 : km)">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">일일 대여 금액</label>
+                <input class="form-control" id="price" name="price" placeholder="하루 대여 금액을 입력해주세요. (단위 : 원)">
+            </div>
+
+            <div class="mb-3">
+                <label for="introduction" class="form-label">소개글</label>
+                <textarea class="form-control" id="introduction" rows="3" placeholder="차량을 소개하는 글을 작성해주세요." name="introduction"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="file" class="form-label">차량 이미지 등록</label>
+                <input class="form-control" accept="image/*" type="file" id="file" name="file">
+            </div>
+        </form>
+
+        <img class="mb-3" id="car-image" />
+        <div class="text-end">
+            <button class="btn btn-primary" id="btn-save">Save</button>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer::fragment-footer}"></footer>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#file").change(function () {
+            let fileReader = new FileReader();
+
+            fileReader.onload = function (e) {
+
+                $("#car-image").attr("src", e.target.result);
+                $("#car-image").addClass("img-thumbnail");
+            };
+
+
+            fileReader.readAsDataURL(this.files[0]);
+        });
+
+        $("#btn-save").click(function () {
+            let form = $("#carSaveForm");
+            let formData = new FormData(form[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "/car",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    alert(data)
+                    window.location = '/';
+                },
+                error: function (e) {
+                    alert(e);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
