@@ -2,6 +2,7 @@ package com.ludwings.baedeokcarv2.controller;
 
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarReadResDto;
 import com.ludwings.baedeokcarv2.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,10 +32,10 @@ public class CarController {
      */
     @GetMapping("/car/{carId}")
     public String findCar(@PathVariable Long carId, Model model) {
-        CarDto findCarDto = carService.findCarByCarId(carId);
+        CarReadResDto findCarDto = carService.findCarByCarId(carId);
         model.addAttribute("car", findCarDto);
 
-        return "redirect:/";
+        return "car/car-form";
     }
 
     /**
@@ -74,10 +75,17 @@ public class CarController {
         model.addAttribute("cars", cars.getContent());
         model.addAttribute("page", cars);
 
-        return "redirect:/";
+        return "car/car-board";
 
     }
 
+    /**
+     * 해당 멤버가 보유한 차량 조회?
+     * @param loginId
+     * @param model
+     * @param pageable
+     * @return
+     */
     @GetMapping("/car/member/{loginId}")
     public String findAllCarOwnedByMember(@PathVariable String loginId, Model model,
                                           @PageableDefault(size=18, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {

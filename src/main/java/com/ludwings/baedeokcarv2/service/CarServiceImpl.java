@@ -2,6 +2,7 @@ package com.ludwings.baedeokcarv2.service;
 
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarReadResDto;
 import com.ludwings.baedeokcarv2.domain.model.Car;
 import com.ludwings.baedeokcarv2.domain.model.Member;
 import com.ludwings.baedeokcarv2.repository.CarRepository;
@@ -69,10 +70,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarDto findCarByCarId(Long carId) {
+    public CarReadResDto findCarByCarId(Long carId) {
         Optional<Car> findCar = carRepository.findById(carId);
         if (findCar.isPresent()) {
-            return new CarDto(findCar.get());
+            return new CarReadResDto(findCar.get());
         } else {
             return null;
         }

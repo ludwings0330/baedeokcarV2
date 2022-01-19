@@ -9,7 +9,37 @@
   <div class="container mt-3">
     <h1>차량 상세 정보</h1>
     <hr/>
+    <form>
+      <div class="row">
+        <div class="col mb-3 me-5">
+          <label class="form-label" for="name">차량 이름</label>
+          <input id="name" name="name" class="form-control mb-3" th:value="${car.getName()}" readonly/>
+          <label for="loginId" class="form-label">차량 소유자 ID</label>
+          <input id="loginId" name="loginId" class="form-control mb-3" th:value="${car.getOwner()}" readonly/>
+          <label for="model" class="form-label">모델</label>
+          <input id="model" name="model" class="form-control mb-3" th:value="${car.getModel()}" readonly/>
+          <label for="distance" class="form-label">주행거리</label>
+          <input id="distance" name="distance" class="form-control mb-3" type="number" th:value="${car.getDistance()}" readonly/>
+          <label for="price" class="form-label">일일대여요금</label>
+          <input id="price" name="price" class="form-control mb-3" type="number" th:value="${car.getPrice()}" readonly/>
 
+        </div>
+        <div class="col mb-3">
+          <label>차량 사진</label>
+          <img class="form-control w-100 img-thumbnail" src="/images/5785a961-c109-41a3-be3c-e3b8d25d0693.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="mb-3">
+          <label class="form-label">차량 소개</label>
+          <textarea class="form-control" th:text="${car.getIntroduction()}" readonly></textarea>
+        </div>
+      </div>
+      <div class="text-end">
+        <button class="btn btn-primary px-4">예약</button>
+        <button class="btn btn-secondary" href="/car/">목록으로</button>
+      </div>
+    </form>
   </div>
 </div>
 <footer th:replace="~{fragments/footer::fragment-footer}"></footer>
