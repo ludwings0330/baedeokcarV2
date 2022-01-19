@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.controller;
 
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarBoardListResDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarReadResDto;
@@ -68,9 +69,9 @@ public class CarController {
      */
     @GetMapping("/car")
     public String findAllCar(Model model,
-                           @PageableDefault(size=18, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
+                           @PageableDefault(size=6, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<CarDto> cars = carService.findAllCar(pageable);
+        Page<CarBoardListResDto> cars = carService.findAllCar(pageable);
 
         model.addAttribute("cars", cars.getContent());
         model.addAttribute("page", cars);

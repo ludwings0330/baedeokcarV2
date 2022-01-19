@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.service;
 
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarBoardListResDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarReadResDto;
@@ -17,7 +18,7 @@ public interface CarService {
 
     CarReadResDto findCarByCarId(Long carId);
 
-    Page<CarDto> findAllCar(Pageable pageable);
+    Page<CarBoardListResDto> findAllCar(Pageable pageable);
 
     Page<CarDto> findCarByMember(Pageable pageable, String loginId);
 }

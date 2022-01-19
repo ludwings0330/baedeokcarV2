@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.service;
 
+import com.ludwings.baedeokcarv2.domain.dto.Car.CarBoardListResDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarReadResDto;
@@ -80,9 +81,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Page<CarDto> findAllCar(Pageable pageable) {
+    public Page<CarBoardListResDto> findAllCar(Pageable pageable) {
         Page<Car> findCar = carRepository.findAll(pageable);
-        Page<CarDto> all = findCar.map(c -> new CarDto(c));
+        Page<CarBoardListResDto> all = findCar.map(c -> new CarBoardListResDto(c));
+
         return all;
     }
 
