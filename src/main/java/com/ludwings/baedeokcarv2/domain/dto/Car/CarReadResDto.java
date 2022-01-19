@@ -20,7 +20,7 @@ public class CarReadResDto {
 
     public CarReadResDto(Car entity) {
         name = entity.getName();
-        owner = entity.getOwner().getName();
+        owner = entity.getOwner().getLoginId();
         model = entity.getModel();
         introduction = entity.getIntroduction();
 
