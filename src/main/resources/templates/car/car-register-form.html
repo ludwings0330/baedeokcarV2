@@ -27,11 +27,11 @@
 
             <div class="mb-3">
                 <label for="distance" class="form-label">주행 거리</label>
-                <input class="form-control" id="distance" name="distance" placeholder="차량 총 주행 거리를 입력해주세요. (단위 : km)">
+                <input type="number" class="form-control" id="distance" name="distance" placeholder="차량 총 주행 거리를 입력해주세요. (단위 : km)">
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">일일 대여 금액</label>
-                <input class="form-control" id="price" name="price" placeholder="하루 대여 금액을 입력해주세요. (단위 : 원)">
+                <input type="number" class="form-control" id="price" name="price" placeholder="하루 대여 금액을 입력해주세요. (단위 : 원)">
             </div>
 
             <div class="mb-3">
@@ -51,6 +51,25 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-input-error" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">입력하지 않은 항목이 있습니다.</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>모든 항목을 채워주세요!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">알겠습니다!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer th:replace="~{fragments/footer::fragment-footer}"></footer>
 
 <script type="text/javascript">
@@ -62,6 +81,7 @@
 
                 $("#car-image").attr("src", e.target.result);
                 $("#car-image").addClass("img-thumbnail");
+
             };
 
 
@@ -72,22 +92,48 @@
             let form = $("#carSaveForm");
             let formData = new FormData(form[0]);
 
-            $.ajax({
-                type: "POST",
-                url: "/car",
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (data) {
-                    alert(data)
-                    window.location = '/';
-                },
-                error: function (e) {
-                    alert(e);
-                }
-            });
+            if (validateParameters(formData)) {
+                $.ajax({
+                    type: "POST",
+                    url: "/car",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        alert("차량 등록이 완료되었습니다.")
+                        window.location = '/';
+                    },
+                    error: function (e) {
+                        alert(e);
+                    }
+                });
+            } else {
+                $("#modal-input-error").modal('show');
+            }
         });
     });
+
+    function validateParameters(data) {
+        let ret = true
+
+        for (let pair of data.entries()) {
+            if (pair[1] == '' || pair[1] == null) {
+                ret = false;
+
+                break;
+            }
+        }
+
+        let fileCheck = $("#file").val();
+        console.log(fileCheck);
+
+        if (!fileCheck) {
+            ret = false
+        }
+
+        return ret;
+    }
+
 </script>
 </body>
 </html>
