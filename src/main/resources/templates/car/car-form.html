@@ -26,7 +26,7 @@
         </div>
         <div class="col mb-3">
           <label>차량 사진</label>
-          <img class="form-control w-100 img-thumbnail" src="/images/5785a961-c109-41a3-be3c-e3b8d25d0693.png">
+          <img class="form-control w-100 img-thumbnail" th:src="|/images/${car.getSavedFileName()}|" th:alt="${car.getOriginFileName()}">
         </div>
       </div>
       <div class="row">
