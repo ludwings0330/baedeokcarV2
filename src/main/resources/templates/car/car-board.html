@@ -35,7 +35,18 @@
                             <img th:src="|/images/${car.getSavedFileName()}|" th:alt="${car.getOriginFileName()}" th:style="'height: 300px'" class="card-img-top">
                             <div class="card-body text-dark">
                                 <h5 class="card-title" th:text="${car.getName()}">Card title</h5>
-                                <p class="card-text" th:text="${car.getModel()}"> content </p>
+
+                                <span>차량명<span class="tab">&#9;</span>: </span>
+                                <span class="card-text" th:text="${car.getName()}"> content </span> <br>
+                                <span>소유자<span class="tab">&#9;</span>: </span>
+                                <span class="card-text" th:text="${car.getLoginId()}"> content </span> <br>
+                                <span>모델 <span class="tab">&#9;</span><span class="tab">&#9;</span>: </span>
+                                <span class="card-text" th:text="${car.getModel()}"> content </span> <br>
+                                <span>주행거리<span class="tab">&#9;</span>: </span>
+                                <span class="card-text" th:text="${car.getDistance()}"> content </span> km <br>
+                                <span>일일요금<span class="tab">&#9;</span>: </span>
+                                <span class="card-text" th:text="${car.getPrice()}"> content </span> 원 <br>
+
                             </div>
                         </div>
                     </a>
@@ -52,15 +63,15 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center mt-3 text-dark">
                     <li th:if="${start > 1}" class="page-item">
-                        <a class="page-link" th:href="@{/car(page=${start-maxPage}, keyword=${keyword})}" id="Previous" aria-label="Previous">
+                        <a class="page-link" th:href="@{/car(page=${start-maxPage}, type=${type}, keyword=${keyword})}" id="Previous" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li th:each="p: ${#numbers.sequence(start, end)}">
-                        <a th:href="@{/car(page=${p-1}, keyword=${keyword})}" class="page-link" th:text="${p}">0</a>
+                        <a th:href="@{/car(page=${p-1}, type=${type}, keyword=${keyword})}" class="page-link" th:text="${p}">0</a>
                     </li>
                     <li class="page-item" th:if="${end < page.totalPages}">
-                        <a class="page-link" th:href="@{/car(page=${start+maxPage}, keyword=${keyword})}" id="Next" aria-label="Next">
+                        <a class="page-link" th:href="@{/car(page=${start+maxPage}, type=${type}, keyword=${keyword})}" id="Next" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -68,10 +79,32 @@
             </nav>
         </th:block>
 
-
+        <!--        search -->
+        <form action="/car" method="get">
+            <div class="text-center">
+                <select name="type" class="form-select" style="display: inline; width: 150px;" aria-label="Default select example">
+                    <option value="loginId">소유자</option>
+                    <option value="name">차량이름</option>
+                    <option value="price">일일요금</option>
+                </select>
+                <input type="text" name="keyword" id="keyword" placeholder="검색어 입력">
+                <button class="btn btn-dark ms-0" id="btn-search"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <!--        end of search -->
 
     </div>
 </div>
 <footer th:replace="~{fragments/footer::fragment-footer}"></footer>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.card').hover(function () {
+            $(this).css("border", "3px solid rgba(0,0,0,1)")
+        }, function () {
+            $(this).css("border", "1px solid rgba(0,0,0,0.125)")
+        });
+    });
+</script>
 </body>
 </html>

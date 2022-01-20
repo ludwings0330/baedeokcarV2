@@ -1,9 +1,6 @@
 package com.ludwings.baedeokcarv2.service;
 
-import com.ludwings.baedeokcarv2.domain.dto.Car.CarBoardListResDto;
-import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
-import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
-import com.ludwings.baedeokcarv2.domain.dto.Car.CarReadResDto;
+import com.ludwings.baedeokcarv2.domain.dto.Car.*;
 import com.ludwings.baedeokcarv2.domain.model.Car;
 import com.ludwings.baedeokcarv2.domain.model.Member;
 import com.ludwings.baedeokcarv2.repository.CarRepository;
@@ -89,11 +86,47 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public Page<CarBoardListResDto> findAllCar(CarBoardListReqDto reqDto) {
+        // loginId, name, price
+        Page<Car> findCar;
+
+        switch (reqDto.getType()) {
+            case "loginId":
+                findCar = findCarByLoginId(reqDto.getPageable(), reqDto.getKeyword());
+                break;
+            case "name":
+                findCar = findCarByCarName(reqDto.getPageable(), reqDto.getKeyword());
+                break;
+            case "price":
+                findCar = findCarByPrice(reqDto.getPageable(), Integer.parseInt(reqDto.getKeyword()));
+                break;
+            default:
+                findCar = carRepository.findAll(reqDto.getPageable());
+        }
+
+        Page<CarBoardListResDto> resDto = findCar.map(c -> new CarBoardListResDto(c));
+        return resDto;
+    }
+
+    @Override
     public Page<CarDto> findCarByMember(Pageable pageable, String loginId) {
         Member findMember = memberService.findMemberByLoginId(loginId);
         Page<Car> carList = carRepository.findCarByOwner(pageable, findMember);
         Page<CarDto> all = carList.map(c -> new CarDto(c));
 
         return all;
+    }
+
+    public Page<Car> findCarByLoginId(Pageable pageable, String loginId) {
+        Member findMember = memberService.findMemberByLoginId(loginId);
+        return carRepository.findCarByOwner(pageable, findMember);
+    }
+
+    public Page<Car> findCarByCarName(Pageable pageable, String Name) {
+        return carRepository.findCarByNameContains(pageable, Name);
+    }
+
+    public Page<Car> findCarByPrice(Pageable pageable, int price) {
+        return carRepository.findCarByPriceLessThan(pageable, price);
     }
 }

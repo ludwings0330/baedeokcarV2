@@ -1,9 +1,6 @@
 package com.ludwings.baedeokcarv2.controller;
 
-import com.ludwings.baedeokcarv2.domain.dto.Car.CarBoardListResDto;
-import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
-import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
-import com.ludwings.baedeokcarv2.domain.dto.Car.CarReadResDto;
+import com.ludwings.baedeokcarv2.domain.dto.Car.*;
 import com.ludwings.baedeokcarv2.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -68,34 +65,20 @@ public class CarController {
      * 페이징 이용 차량 전체 조회
      */
     @GetMapping("/car")
-    public String findAllCar(Model model,
-                           @PageableDefault(size=6, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String findAllCar(
+            @RequestParam(defaultValue = "") String type,
+            @RequestParam(defaultValue = "") String keyword,
+            @PageableDefault(size=6, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
+            Model model) {
 
-        Page<CarBoardListResDto> cars = carService.findAllCar(pageable);
+        CarBoardListReqDto reqDto = new CarBoardListReqDto(type, keyword, pageable);
+        Page<CarBoardListResDto> cars = carService.findAllCar(reqDto);
 
         model.addAttribute("cars", cars.getContent());
         model.addAttribute("page", cars);
+        model.addAttribute("type", type);
+        model.addAttribute("keyword", keyword);
 
         return "car/car-board";
-
-    }
-
-    /**
-     * 해당 멤버가 보유한 차량 조회?
-     * @param loginId
-     * @param model
-     * @param pageable
-     * @return
-     */
-    @GetMapping("/car/member/{loginId}")
-    public String findAllCarOwnedByMember(@PathVariable String loginId, Model model,
-                                          @PageableDefault(size=18, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
-
-        Page<CarDto> cars = carService.findCarByMember(pageable, loginId);
-
-        model.addAttribute("cars", cars.getContent());
-        model.addAttribute("page", cars);
-
-        return "redirect:/";
     }
 }
