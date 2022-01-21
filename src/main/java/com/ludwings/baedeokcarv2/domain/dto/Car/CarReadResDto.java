@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CarReadResDto {
+    Long id;
     String name;
     String owner;
     String model;
@@ -19,6 +20,7 @@ public class CarReadResDto {
     String savedFileName;
 
     public CarReadResDto(Car entity) {
+        id = entity.getId();
         name = entity.getName();
         owner = entity.getOwner().getLoginId();
         model = entity.getModel();

@@ -41,10 +41,10 @@ public class CarController {
      * @param carId
      */
     @DeleteMapping("/car/{carId}")
-    public String deleteCar(@PathVariable Long carId) {
+    public @ResponseBody String deleteCar(@PathVariable Long carId) {
         carService.deleteCar(carId);
 
-        return "redirect:/";
+        return "DELETED";
     }
 
     /**
@@ -53,11 +53,11 @@ public class CarController {
      * @param carDto
      */
     @PatchMapping("/car/{carId}")
-    public String modifyCar(@PathVariable Long carId, @ModelAttribute CarDto carDto) {
+    public @ResponseBody String modifyCar(@PathVariable Long carId, @ModelAttribute CarDto carDto) {
         carDto.setId(carId);
         carService.modifyCar(carDto);
 
-        return "redirect:/";
+        return "Modified";
     }
 
 

@@ -22,7 +22,7 @@
                     <a class="nav-link active " aria-current="page" href="/car-register-form"><i class="fas fa-plus"></i> 차량 등록</a>
                 </li>
                 <li th:if="${session.loginId != null}" class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="#"><i class="fas fa-list-alt"></i> 내 차량</a>
+                    <a class="nav-link active " aria-current="page" th:href="@{/car(type=loginId,keyword=${session.loginId})}"><i class="fas fa-list-alt"></i> 내 차량</a>
                 </li>
                 <li th:if="${session.loginId != null}" class="nav-item" >
                     <a class="nav-link active " aria-current="page" href="#"><i class="fas fa-tasks"></i> 예약 확인</a>
