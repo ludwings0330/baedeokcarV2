@@ -1,6 +1,7 @@
 package com.ludwings.baedeokcarv2.service;
 
 import com.ludwings.baedeokcarv2.domain.dto.Car.*;
+import com.ludwings.baedeokcarv2.domain.model.Car;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,6 +11,8 @@ public interface CarService {
     void saveCar(CarCreateReqDto reqDto);
 
     CarDto modifyCar(CarDto carDto);
+
+    Car findCarEntityByCarId(Long carId);
 
     void deleteCar(Long carId);
 

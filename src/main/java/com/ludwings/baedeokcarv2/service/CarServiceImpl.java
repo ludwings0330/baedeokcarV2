@@ -56,6 +56,18 @@ public class CarServiceImpl implements CarService {
         }
     }
 
+
+    @Override
+    public Car findCarEntityByCarId(Long carId) {
+        Optional<Car> findCar = carRepository.findById(carId);
+
+        if (findCar.isPresent()) {
+            return findCar.get();
+        }
+
+        return null;
+    }
+
     @Override
     @Transactional
     public void deleteCar(Long carId) {

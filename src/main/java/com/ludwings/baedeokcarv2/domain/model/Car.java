@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.domain.model;
 
+import com.ludwings.baedeokcarv2.domain.BaseEntity;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarCreateReqDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarDto;
 import com.ludwings.baedeokcarv2.domain.dto.Car.CarModDto;
@@ -19,28 +20,28 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Car {
+public class Car extends BaseEntity {
 
 
     @Id @GeneratedValue
     @Column(name="car_id")
     private Long id;
 
-    String name;
-    String model;
-    String introduction;
-    int distance;
-    int price;
-    String originFileName;
-    String savedFileName;
+    private String name;
+    private String model;
+    private String introduction;
+    private int distance;
+    private int price;
+    private String originFileName;
+    private String savedFileName;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
-    Member owner;
+    private Member owner;
 
     @OneToMany(mappedBy = "reservedCar")
-    List<Reservation> reservationList = new ArrayList<>();
+    private List<Reservation> reservationList = new ArrayList<>();
 
     public Car(CarDto carDto, Member member) {
         member.addCar(this);

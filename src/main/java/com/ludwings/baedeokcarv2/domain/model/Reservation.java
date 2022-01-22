@@ -1,5 +1,8 @@
 package com.ludwings.baedeokcarv2.domain.model;
 
+import com.ludwings.baedeokcarv2.domain.BaseEntity;
+import com.ludwings.baedeokcarv2.domain.dto.reservation.ReservationCreateEntityDto;
+import com.ludwings.baedeokcarv2.domain.dto.reservation.ReservationModifyReqDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,33 +13,42 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Reservation {
+public class Reservation extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name="reservation_id")
-    Long id;
+    private Long id;
+
+    private String title;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="car_id")
-    Car reservedCar;
+    private Car reservedCar;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
-    Member reservedMember;
+    private Member reservedMember;
 
-    LocalDate start;
-    LocalDate end;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-    public Reservation createReservation(Member member, Car car, LocalDate start, LocalDate end) {
-        return Reservation.builder()
-                .reservedMember(member)
-                .reservedCar(car)
-                .start(start)
-                .end(end)
-                .build();
+    public Reservation(ReservationCreateEntityDto reqDto) {
+        title = reqDto.getTitle();
+        content = reqDto.getContent();
+        reservedMember = reqDto.getMember();
+        reservedCar = reqDto.getCar();
+        startDate = reqDto.getStartDate();
+        endDate = reqDto.getEndDate();
+
+        reqDto.getMember().addReservation(this);
+        reqDto.getCar().addReservation(this);
     }
 
-    public void modifyReservation() {
-        // Reservation Dto 사용
+    public void modifyReservation(ReservationModifyReqDto reqDto) {
+        this.title = reqDto.getTitle();
+        this.content = reqDto.getContent();
+        this.startDate = reqDto.getStartDate();
+        this.endDate = reqDto.getEndDate();
     }
 }

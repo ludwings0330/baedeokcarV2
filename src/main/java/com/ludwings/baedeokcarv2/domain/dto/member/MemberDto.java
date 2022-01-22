@@ -28,7 +28,8 @@ public class MemberDto {
                 .build();
     }
 
-    public MemberDto(Member entity) {
+    public
+    MemberDto(Member entity) {
         this.loginId = entity.getLoginId();
         this.name = entity.getName();
     }

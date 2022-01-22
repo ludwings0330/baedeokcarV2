@@ -48,4 +48,8 @@ public class Member extends BaseEntity {
     public void addCar(Car car) {
         carList.add(car);
     }
+
+    public void addReservation(Reservation reservation) {
+        reservationList.add(reservation);
+    }
 }
