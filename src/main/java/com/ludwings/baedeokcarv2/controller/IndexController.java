@@ -26,6 +26,11 @@ public class IndexController {
         return "login";
     }
 
+    @GetMapping("/member-form")
+    public String memberInfoModForm() {
+        return "member/member-form";
+    }
+
     @GetMapping("/car-register-form")
     public String carRegisterForm() {
         return "car/car-register-form";

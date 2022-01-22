@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.service;
 
+import com.ludwings.baedeokcarv2.domain.dto.member.MemberDeleteReqDto;
 import com.ludwings.baedeokcarv2.domain.model.Member;
 import com.ludwings.baedeokcarv2.domain.dto.member.MemberDto;
 
@@ -12,6 +13,6 @@ public interface MemberService {
     Member findMemberByLoginId(String loginId);
     List<String> findAllMember();
     String login(MemberDto memberDto);
-    boolean deleteMember(MemberDto memberDto);
+    boolean deleteMember(MemberDeleteReqDto memberDto);
     String modifyMember(MemberDto memberDto);
 }

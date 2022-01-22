@@ -47,8 +47,7 @@ public class ReservationController {
     }
 
     @PatchMapping("/reservation/{id}")
-    public @ResponseBody
-    String modifyReservationById(@ModelAttribute ReservationModifyReqDto reqDto) {
+    public @ResponseBody String modifyReservationById(@ModelAttribute ReservationModifyReqDto reqDto) {
 
         reservationService.modifyReservation(reqDto);
 

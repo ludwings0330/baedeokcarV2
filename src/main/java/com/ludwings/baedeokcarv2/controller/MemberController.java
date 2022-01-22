@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.controller;
 
+import com.ludwings.baedeokcarv2.domain.dto.member.MemberDeleteReqDto;
 import com.ludwings.baedeokcarv2.domain.model.Member;
 import com.ludwings.baedeokcarv2.domain.dto.member.MemberDto;
 import com.ludwings.baedeokcarv2.service.MemberService;
@@ -67,5 +68,21 @@ public class MemberController {
         ret.put("canUse", "" + !isLoginIdDuplicated);
 
         return ret;
+    }
+
+    @PatchMapping("/member/{loginId}")
+    public String modifyMemberInfo(@ModelAttribute MemberDto memberDto) {
+
+        memberService.modifyMember(memberDto);
+
+        return "redirect:/";
+    }
+
+    @DeleteMapping("/member/{loginId}")
+    public String deleteMemberInfo(@ModelAttribute MemberDeleteReqDto reqDto) {
+
+        memberService.deleteMember(reqDto);
+
+        return "redirect:/";
     }
 }

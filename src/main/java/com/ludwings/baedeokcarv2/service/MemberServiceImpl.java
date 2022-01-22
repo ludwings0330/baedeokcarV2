@@ -1,5 +1,6 @@
 package com.ludwings.baedeokcarv2.service;
 
+import com.ludwings.baedeokcarv2.domain.dto.member.MemberDeleteReqDto;
 import com.ludwings.baedeokcarv2.domain.model.Member;
 import com.ludwings.baedeokcarv2.domain.dto.member.MemberDto;
 import com.ludwings.baedeokcarv2.repository.MemberRepository;
@@ -85,10 +86,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public boolean deleteMember(MemberDto memberDto) {
-        Member findMember = findMemberByLoginId(memberDto.getLoginId());
-        memberRepository.delete(findMember);
+    public boolean deleteMember(MemberDeleteReqDto memberDto) {
 
+        Member findMember = findMemberByLoginId(memberDto.getLoginId());
+
+        if (findMember == null) {
+            return false;
+        }
+
+        memberRepository.delete(findMember);
         return true;
     }
 
@@ -96,7 +102,13 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Modifying
     public String modifyMember(MemberDto memberDto) {
+
         Member findMember = findMemberByLoginId(memberDto.getLoginId());
+
+        if (findMember == null) {
+            return null;
+        }
+
         findMember.updateMemberInfo(memberDto.toEntity());
 
         return findMember.getLoginId();
