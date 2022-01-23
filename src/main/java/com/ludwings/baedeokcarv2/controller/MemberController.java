@@ -42,11 +42,9 @@ public class MemberController {
 
     // 로그인
     @GetMapping("/login")
-    public @ResponseBody
-    String login(@ModelAttribute MemberDto memberDto, HttpSession session) {
+    public @ResponseBody String login(@ModelAttribute MemberDto memberDto, HttpSession session) {
         String loginId = memberService.login(memberDto);
         session.setAttribute("loginId", loginId);
-
         return loginId;
     }
 
@@ -71,18 +69,19 @@ public class MemberController {
     }
 
     @PatchMapping("/member/{loginId}")
-    public String modifyMemberInfo(@ModelAttribute MemberDto memberDto) {
+    public @ResponseBody String modifyMemberInfo(@ModelAttribute MemberDto memberDto) {
 
         memberService.modifyMember(memberDto);
 
-        return "redirect:/";
+        return "modified";
     }
 
     @DeleteMapping("/member/{loginId}")
-    public String deleteMemberInfo(@ModelAttribute MemberDeleteReqDto reqDto) {
+    public @ResponseBody String deleteMemberInfo(@ModelAttribute MemberDeleteReqDto reqDto, HttpSession session) {
 
         memberService.deleteMember(reqDto);
+        session.invalidate();
 
-        return "redirect:/";
+        return "DELETE";
     }
 }

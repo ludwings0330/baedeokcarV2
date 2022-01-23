@@ -31,13 +31,13 @@ public class Member extends BaseEntity {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Car> carList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "reservedMember", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reservedMember", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservationList = new ArrayList<>();
 
     public void updateMemberInfo(Member info) {

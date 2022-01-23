@@ -1,6 +1,7 @@
 package com.ludwings.baedeokcarv2.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -29,6 +30,11 @@ public class IndexController {
     @GetMapping("/member-form")
     public String memberInfoModForm() {
         return "member/member-form";
+    }
+
+    @GetMapping("/reservation-form")
+    public String reservationForm(){
+        return "reservation/reservation-form";
     }
 
     @GetMapping("/car-register-form")

@@ -95,6 +95,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         memberRepository.delete(findMember);
+
         return true;
     }
 
