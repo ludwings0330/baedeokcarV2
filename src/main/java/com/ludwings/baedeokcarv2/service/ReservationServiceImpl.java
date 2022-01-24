@@ -37,9 +37,8 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional
     public void deleteReservation(ReservationDeleteReqDto reqDto) {
-        Optional<Reservation> reservation = reservationRepository.findById(reqDto.getId());
-        if (reservation.isPresent()) {
-            reservationRepository.delete(reservation.get());
+        if (reservationRepository.existsById(reqDto.getId())) {
+            reservationRepository.deleteById(reqDto.getId());
         }
     }
 

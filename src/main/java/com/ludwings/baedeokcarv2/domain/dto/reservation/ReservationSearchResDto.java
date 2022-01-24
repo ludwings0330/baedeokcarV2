@@ -10,7 +10,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 public class ReservationSearchResDto {
+    Long reservationId;
     String loginId;
+    String carName;
     Long carId;
     String title;
     String content;
@@ -21,7 +23,9 @@ public class ReservationSearchResDto {
     LocalDate endDate;
 
     public ReservationSearchResDto(Reservation r) {
+        reservationId = r.getId();
         loginId = r.getReservedMember().getLoginId();
+        carName = r.getReservedCar().getName();
         carId = r.getReservedCar().getId();
         title = r.getTitle();
         content = r.getContent();

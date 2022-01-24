@@ -25,10 +25,10 @@
                     <a class="nav-link active " aria-current="page" th:href="@{/car(type=loginId,keyword=${session.loginId})}"><i class="fas fa-list-alt"></i> 내 차량</a>
                 </li>
                 <li th:if="${session.loginId != null}" class="nav-item" >
-                    <a class="nav-link active " aria-current="page" href="#"><i class="fas fa-tasks"></i> 예약 확인</a>
+                    <a class="nav-link active " aria-current="page" href="/reservation-form"><i class="fas fa-tasks"></i> 예약 확인</a>
                 </li>
                 <li th:if="${session.loginId != null}" class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="#"><i class="fas fa-user-edit"></i> 개인정보 수정</a>
+                    <a class="nav-link active " aria-current="page" href="/member-form"><i class="fas fa-user-edit"></i> 개인정보 수정</a>
                 </li>
 
                 <li th:if="${session.loginId == null}" class="nav-item active not-login">

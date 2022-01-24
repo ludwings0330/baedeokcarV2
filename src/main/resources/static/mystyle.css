@@ -4,3 +4,7 @@
 }
 
 .tab { white-space: pre; }
+
+#calendar a {
+    color: black;
+}

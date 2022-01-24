@@ -2,6 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <div th:replace="~{fragments/header::fragment-header}"></div>
+  <!--    fullcalendar CDN-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
+
 </head>
 <body>
 <div th:replace="~{fragments/nav::fragment-nav}"></div>
@@ -38,7 +43,7 @@
       </div>
 
       <div class="text-end">
-        <a th:if="${session.loginId!=car.getOwner()}" id="btn-reservation" class="btn btn-primary px-4">예약</a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-reservation" id="btn-reservation">예약확인</button>
         <a th:unless="${session.loginId!=car.getOwner()}" id="btn-car-mod" class="btn btn-warning px-4 owner-contents">수정</a>
         <a th:unless="${session.loginId!=car.getOwner()}" id="btn-car-mod-save" class="btn btn-success px-4 owner-contents">저장</a>
         <a th:unless="${session.loginId!=car.getOwner()}" id="btn-car-delete" class="btn btn-danger px-4 owner-contents">삭제</a>
@@ -49,12 +54,67 @@
     </form>
   </div>
 </div>
+
+<div class="modal fade" id="modal-reservation">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="calendar">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <footer th:replace="~{fragments/footer::fragment-footer}"></footer>
 
 <script th:inline="javascript">
   toggleWhenSaveOrCancelButtonClick();
 
   $(document).ready(function () {
+    $("#modal-reservation").on('shown.bs.modal', function () {
+      let calendarEl = document.getElementById('calendar');
+      let calendar = new FullCalendar.Calendar(calendarEl, {
+        events: [
+          {
+            id: 'event test id',
+            title: 'test',
+            start: '2022-01-23',
+            end: '2022-01-27'
+          }
+        ],
+
+        height: '700px',
+        initialView: 'dayGridMonth',
+        locale: 'ko',
+        headerToolbar: {
+          start: 'prev,next today',
+          center: 'title',
+          end: ''
+        },
+
+        select: function (info) {
+          console.log('start : ' + info.start);
+          console.log('start STR : ' + info.startStr);
+          console.log('end : ' + info.end);
+          console.log('end STR : ' + info.endStr);
+        },
+
+        eventClick: function (info) {
+          alert("event 가 클릭되었다."+info.event.id);
+        }
+      });
+
+      calendar.render();
+    });
+
     $("#btn-car-mod").click(function () {
       toggleWhenModButtonClick();
       enterModifyMode();

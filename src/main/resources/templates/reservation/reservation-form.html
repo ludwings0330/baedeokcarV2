@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments/header::fragment-header}"></div>
+
+<!--    fullcalendar CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
+
+</head>
+<body>
+<div th:replace="~{fragments/nav::fragment-nav}"></div>
+<div class="content">
+    <div class="container mt-3">
+        <h1>예약 관리 페이지</h1>
+        <hr/>
+        <div id="calendar"></div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal-reservation-info" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">예약 정보 조회</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div id="reservationId" hidden></div>
+                    <div class="mb-3">
+                        <label for="modal-title" class="form-label">예약명</label>
+                        <input type="text" class="form-control" id="modal-title" name="title">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-startDate" class="form-label" >예약 시작일</label>
+                        <input type="text" class="form-control" id="modal-startDate" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-endDate" class="form-label">예약 종료일</label>
+                        <input type="text" class="form-control" id="modal-endDate" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-carId" class="form-label">예약 차량</label>
+                        <a type="text" class="form-control" id="modal-carId" href="#"></a>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-content" class="form-label">예약 내용</label>
+                        <textarea rows="5" class="form-control" id="modal-content" name="content"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-res-mod" class="btn btn-primary">수정저장</button>
+                <button type="button" id="btn-res-del"class="btn btn-danger">예약취소</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer::fragment-footer}"></footer>
+
+<script th:inline="javascript">
+    let loginId =  [[${session.loginId}]];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let calendarEl = document.getElementById('calendar');
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            height: '700px',
+            initialView: 'dayGridMonth',
+            locale: 'ko',
+            headerToolbar: {
+                start: 'prev,next today',
+                center: 'title',
+                end: ''
+            },
+
+            eventClick: function (info) {
+                setReservationInfo(info);
+                $("#modal-reservation-info").modal('show');
+            }
+        });
+
+
+        getReservationEvents(calendar);
+        calendar.render();
+
+        $("#btn-res-mod").click({calendar: calendar},modifyReservation);
+        $("#btn-res-del").click({calendar: calendar},deleteReservation);
+    });
+
+    function setReservationInfo(info) {
+
+        $("#reservationId").val(info.event.id);
+        $("#modal-title").val(info.event.title);
+        console.log(info.event.start);
+        console.log(typeof(info.event.start));
+
+        $("#modal-startDate").val(getDateAndDay(info.event.start, 0));
+        $("#modal-endDate").val(getDateAndDay(info.event.end, 1));
+
+        $("#modal-carId").attr('href','/car/'+info.event.extendedProps.carId);
+        $("#modal-carId").text(info.event.extendedProps.carName);
+        $("#modal-content").text(info.event.extendedProps.content);
+    }
+
+    function getDateAndDay(date, offset) {
+        let days = new Array("일","월","화","수","목","금","토");
+
+        return date.toLocaleDateString() + " " + days[(days.length + (date.getDay() - offset)) % days.length] + "요일";
+    }
+
+    function getReservationEvents(calendar) {
+        calendar.addEvent({
+            id: '1999',
+            title: '예약 제목 테스트',
+            carName: '민트카',
+            carId: '1041',
+            content: '예약 내용 테스트',
+            start: '2022-01-23',
+            end: '2022-01-27',
+            color: "#"+Math.round(Math.random()*0xffffff).toString(16)
+        });
+
+        calendar.addEvent({
+            id: '2000',
+            title: '예약 제목 테스트 22',
+            carName: '창민카',
+            carId: '1041',
+            content: '예약 내용 테스트 222',
+            start: '2022-01-27',
+            end: '2022-01-30',
+            color: "#"+Math.round(Math.random()*0xffffff).toString(16)
+        });
+
+
+        $.ajax({
+            type: "GET",
+            url: "/reservation/member/" + loginId,
+            success: function (res) {
+                for (let i = 0; i < res.length; i++) {
+                    calendar.addEvent({
+                        id: res[i].reservationId,
+                        title: res[i].title,
+                        carName: res[i].carName,
+                        carId: res[i].carId,
+                        content: res[i].content,
+                        start: res[i].startDate,
+                        end: res[i].startDate,
+                        color: "#"+Math.round(Math.random()*0xffffff).toString(16)
+                    })
+                }
+            },
+
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    }
+
+    function deleteReservation(event) {
+        if (confirm("예약을 취소할까요?")) {
+            let resId = $("#reservationId").val();
+            let calendar = event.data.calendar;
+
+            $.ajax({
+                type: "DELETE",
+                url: "/reservation/" + resId,
+                success: function (res) {
+                    console.log(res)
+                    $("#modal-reservation-info").modal('hide');
+                    console.log("calendar.getEventById : " + calendar.getEventById(resId));
+                    calendar.getEventById(resId).remove();
+                },
+
+                error: function (e) {
+                    console.log(e);
+                }
+            })
+        }
+    }
+
+
+    function modifyReservation(event) {
+        if (confirm("예약 정보를 수정할까요?")) {
+            let calendar = event.data.calendar;
+            let resId = $("#reservationId").val();
+            let title = $("#modal-title");
+            let content = $("#modal-content");
+
+            console.log("수정정보 -> title: "+title.val() + " content: "+content.text());
+
+            $.ajax({
+                type: "PATCH",
+                url: "/reservation/" + resId,
+                data: {'title':title.val(),'content':content.text()},
+                success: function (res) {
+                    let event = calendar.getEventById(resId);
+                    event.title = title.val();
+                    event.content = content.text();
+
+                    alert("수정되었습니다!");
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>
