@@ -71,10 +71,11 @@
 
 <script th:inline="javascript">
     let loginId =  [[${session.loginId}]];
+    let calendar;
 
     document.addEventListener('DOMContentLoaded', function() {
         let calendarEl = document.getElementById('calendar');
-        let calendar = new FullCalendar.Calendar(calendarEl, {
+        calendar = new FullCalendar.Calendar(calendarEl, {
             height: '700px',
             initialView: 'dayGridMonth',
             locale: 'ko',
@@ -88,6 +89,7 @@
                 setReservationInfo(info);
                 $("#modal-reservation-info").modal('show');
             }
+
         });
 
 
@@ -102,6 +104,7 @@
 
         $("#reservationId").val(info.event.id);
         $("#modal-title").val(info.event.title);
+
         console.log(info.event.start);
         console.log(typeof(info.event.start));
 
@@ -110,7 +113,8 @@
 
         $("#modal-carId").attr('href','/car/'+info.event.extendedProps.carId);
         $("#modal-carId").text(info.event.extendedProps.carName);
-        $("#modal-content").text(info.event.extendedProps.content);
+        $("#modal-content").val(info.event.extendedProps.content);
+
     }
 
     function getDateAndDay(date, offset) {
@@ -120,29 +124,6 @@
     }
 
     function getReservationEvents(calendar) {
-        calendar.addEvent({
-            id: '1999',
-            title: '예약 제목 테스트',
-            carName: '민트카',
-            carId: '1041',
-            content: '예약 내용 테스트',
-            start: '2022-01-23',
-            end: '2022-01-27',
-            color: "#"+Math.round(Math.random()*0xffffff).toString(16)
-        });
-
-        calendar.addEvent({
-            id: '2000',
-            title: '예약 제목 테스트 22',
-            carName: '창민카',
-            carId: '1041',
-            content: '예약 내용 테스트 222',
-            start: '2022-01-27',
-            end: '2022-01-30',
-            color: "#"+Math.round(Math.random()*0xffffff).toString(16)
-        });
-
-
         $.ajax({
             type: "GET",
             url: "/reservation/member/" + loginId,
@@ -155,7 +136,7 @@
                         carId: res[i].carId,
                         content: res[i].content,
                         start: res[i].startDate,
-                        end: res[i].startDate,
+                        end: res[i].endDate,
                         color: "#"+Math.round(Math.random()*0xffffff).toString(16)
                     })
                 }
@@ -189,25 +170,23 @@
         }
     }
 
-
     function modifyReservation(event) {
         if (confirm("예약 정보를 수정할까요?")) {
-            let calendar = event.data.calendar;
+            let myCalendar = event.data.calendar;
             let resId = $("#reservationId").val();
-            let title = $("#modal-title");
-            let content = $("#modal-content");
+            let mdTitle = $("#modal-title");
+            let mdContent = $("#modal-content");
 
-            console.log("수정정보 -> title: "+title.val() + " content: "+content.text());
+            console.log("수정정보 -> title: "+mdTitle.val() + " content: "+mdContent.text());
 
             $.ajax({
                 type: "PATCH",
                 url: "/reservation/" + resId,
-                data: {'title':title.val(),'content':content.text()},
+                data: {'title':mdTitle.val(),'content':mdContent.text()},
                 success: function (res) {
                     let event = calendar.getEventById(resId);
-                    event.title = title.val();
-                    event.content = content.text();
-
+                    event.setProp("title", mdTitle.val());
+                    event.setExtendedProp("content", mdContent.val());
                     alert("수정되었습니다!");
                 },
                 error: function (e) {
