@@ -47,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
     public void modifyReservation(ReservationModifyReqDto reqDto) {
         Optional<Reservation> findReservation = reservationRepository.findById(reqDto.getId());
 
-        if (findReservation.isEmpty()) {
+        if (!findReservation.isPresent()) {
             return;
         }
 
