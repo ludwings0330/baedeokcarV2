@@ -1,8 +1,5 @@
 spring:
   h2:
-    profiles:
-      include: real-db
-
     console:
       enabled: true
 
@@ -32,6 +29,3 @@ spring:
     hibernate:
 #      ddl-auto: update
       ddl-auto: create
-
-  session:
-    store-type: jdbc
