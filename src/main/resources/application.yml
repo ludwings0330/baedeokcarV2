@@ -1,5 +1,8 @@
 spring:
   h2:
+    profiles:
+      include: real-db
+
     console:
       enabled: true
 
@@ -9,6 +12,8 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+    hikari:
+      jdbc-url: jdbc:h2:mem:test;MODE=MYSQL
 
   devtools:
     livereload:
@@ -17,12 +22,16 @@ spring:
       cache: false
 
   jpa:
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        storage_engine: innodb
 
     hibernate:
-      ddl-auto: update
-#      ddl-auto: create
+#      ddl-auto: update
+      ddl-auto: create
 
-    show-sql: true
+  session:
+    store-type: jdbc
